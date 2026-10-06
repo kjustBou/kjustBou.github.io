@@ -5,32 +5,37 @@
 :root {
   /* Thème clair */
   --bg: #F5F7F7;          /* fond blanc froid */
-  --tile: #FFFFFF;        /* fond des tuiles */
+  --surface: #FFFFFF;     /* fond des boutons */
   --text: #12201F;        /* texte principal */
   --muted: #5B6B6A;       /* texte secondaire */
-  --line: #E1E7E6;        /* bordures fines */
+  --line: #D9E1E0;        /* lignes fines */
   --accent: #0F6E73;      /* bleu canard */
-  --accent-2: #E07A5F;    /* touche corail (rare) */
+  --marker: #E07A5F;      /* corail : "crayon gras" du photographe */
   --ph: #E4EAE9;          /* placeholders */
 
-  --font-title: "Fraunces", Georgia, serif;
-  --font-text: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  /* Pellicule (bande sombre des planches) */
+  --film: #132022;
+  --film-text: #E6F0EF;
+  --film-muted: #8FA8A6;
+  --hole: #F5F7F7;        /* trous de la pellicule */
 
-  --radius: 22px;
-  --gap: 16px;
+  --font: "Archivo", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
 }
 
 /* Thème sombre « terminal » : activé par le bouton ☾ */
 [data-theme="dark"] {
   --bg: #0B1A1C;          /* bleu nuit */
-  --tile: #12282B;
+  --surface: #12282B;
   --text: #E6F0EF;
   --muted: #8FA8A6;
   --line: #1F3B3E;
   --accent: #3FD1C7;      /* teal lumineux */
-  --accent-2: #F2A48C;
+  --marker: #F2A48C;
   --ph: #1A3336;
+
+  --film: #050D0E;
+  --hole: #1F3B3E;
 }
 
 /* =========================================================
@@ -43,7 +48,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-text);
+  font-family: var(--font);
   line-height: 1.6;
   /* transition douce entre clair et sombre */
   transition: background-color .6s ease, color .6s ease;
@@ -52,18 +57,23 @@ body {
 img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
+ul { list-style: none; }
 
-h1, h2, h3 { font-family: var(--font-title); font-weight: 400; line-height: 1.1; }
-h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
-h3 { font-size: 1.5rem; }
-em { font-style: italic; color: var(--accent); }
+h1, h2, h3 {
+  font-weight: 700;
+  font-stretch: 115%;          /* Archivo un peu élargie */
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); }
+h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); }
+h3 { font-size: 1.25rem; }
 
-/* Petit libellé en police mono (style terminal) */
-.label {
+/* Métadonnées en police mono (comme les infos d'une photo) */
+.meta {
   font-family: var(--font-mono);
   font-size: .75rem;
-  letter-spacing: .08em;
+  letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -76,182 +86,231 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .nav {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 24px;
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
-  transition: background-color .6s ease;
+  transition: background-color .6s ease, border-color .6s ease;
 }
-.nav__logo { font-family: var(--font-title); font-size: 1.5rem; }
-.dot { color: var(--accent-2); }
-.nav__links { display: flex; gap: 32px; font-size: .95rem; }
+.nav__logo { font-weight: 700; font-stretch: 120%; letter-spacing: .02em; }
+.dot { color: var(--marker); }
+.nav__links { display: flex; gap: 32px; font-family: var(--font-mono); font-size: .8rem; text-transform: uppercase; }
 .nav__links a:hover { color: var(--accent); }
 .nav__actions { display: flex; gap: 8px; }
 
 .btn-icon {
-  width: 40px; height: 40px;
+  width: 38px; height: 38px;
   border: 1px solid var(--line); border-radius: 50%;
-  background: var(--tile); color: var(--text);
+  background: var(--surface); color: var(--text);
+  font-family: var(--font-mono); font-size: .75rem;
   transition: background-color .6s, border-color .6s, color .6s;
 }
-.btn-lang { font-family: var(--font-mono); font-size: .75rem; }
 
 /* =========================================================
    4. BOUTONS
    ========================================================= */
 .btn {
   display: inline-block;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 500;
-  transition: transform .2s, background-color .3s;
+  padding: 12px 22px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: transform .2s, background-color .6s, color .6s;
 }
 .btn:hover { transform: translateY(-2px); }
 .btn--primary { background: var(--accent); color: var(--bg); }
-.btn--ghost { border: 1px solid var(--line); background: var(--tile); }
+.btn--ghost { border: 1px solid var(--line); background: var(--surface); }
 
 /* =========================================================
-   5. HERO (split)
+   5. HERO
    ========================================================= */
 .hero {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 64px;
   align-items: center;
-  min-height: 85vh;
-  padding: 48px 0;
+  min-height: min(88vh, 820px);
+  padding: 64px 0;
 }
 .hero__text { display: flex; flex-direction: column; gap: 24px; }
-.hero__typing { font-family: var(--font-mono); font-size: 1.25rem; color: var(--accent); }
+.hero__typing { font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent); }
 .prompt { color: var(--muted); }
 .cursor { animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+.hero__intro { max-width: 460px; color: var(--muted); }
 .hero__buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero__photo { aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; }
+
+/* Photo avec repères de cadrage dans les coins */
+.hero__photo { display: flex; flex-direction: column; gap: 12px; }
+.crop { position: relative; padding: 14px; aspect-ratio: 4 / 5; }
+.c { position: absolute; width: 22px; height: 22px; border: 0 solid var(--text); }
+.c--tl { top: 0; left: 0; border-top-width: 1.5px; border-left-width: 1.5px; }
+.c--tr { top: 0; right: 0; border-top-width: 1.5px; border-right-width: 1.5px; }
+.c--bl { bottom: 0; left: 0; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.c--br { bottom: 0; right: 0; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 
 /* =========================================================
-   6. SECTIONS + BENTO (grille de tuiles)
+   6. SECTIONS
    ========================================================= */
-.section { padding: 96px 0; }
+.section { padding: 120px 0 0; }
 .section__head {
   display: flex; justify-content: space-between; align-items: end;
-  flex-wrap: wrap; gap: 16px;
-  margin-bottom: 32px;
+  flex-wrap: wrap; gap: 24px;
+  margin-bottom: 40px;
 }
+.section__head .meta { margin-bottom: 10px; }
+.section__note { max-width: 380px; color: var(--muted); }
 
 .filters { display: flex; gap: 8px; }
 .filter {
-  padding: 8px 16px; border-radius: 999px;
+  padding: 7px 14px; border-radius: 4px;
   border: 1px solid var(--line); background: transparent; color: var(--muted);
-  font-family: var(--font-mono); font-size: .8rem;
+  font-family: var(--font-mono); font-size: .75rem; text-transform: uppercase;
 }
 .filter.is-active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-.bento {
+/* =========================================================
+   7. PELLICULE (bande sombre avec trous en haut et en bas)
+   ========================================================= */
+.strip {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
+  gap: 32px;
+  padding: 52px 32px;
+  background: var(--film);
+  color: var(--film-text);
+  border-radius: 6px;
+  transition: background-color .6s;
 }
-
-.tile {
-  background: var(--tile);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px;
-  overflow: hidden;
-  transition: background-color .6s, border-color .6s, transform .3s;
+/* Les trous : une rangée de petits rectangles répétés */
+.strip::before,
+.strip::after {
+  content: "";
+  position: absolute; left: 20px; right: 20px;
+  height: 12px;
+  background: repeating-linear-gradient(90deg, var(--hole) 0 16px, transparent 16px 34px);
+  opacity: .9;
 }
+.strip::before { top: 18px; }
+.strip::after { bottom: 18px; }
 
-/* --- Tuiles projet --- */
-.tile--project { padding: 0; display: flex; flex-direction: column; }
-.tile--wide { grid-column: span 2; grid-row: span 2; }
-.tile__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; flex: 1; }
-.tile__media img, .tile__media .ph { transition: transform .6s ease; }
-.tile--project:hover .tile__media img,
-.tile--project:hover .tile__media .ph { transform: scale(1.05); }
-.tile__media--logo { display: grid; place-items: center; background: var(--ph); padding: 32px; }
-.tile__media--logo img { width: 60%; height: auto; object-fit: contain; }
-.tile__overlay-logo {
-  position: absolute; inset: auto auto 16px 16px;
-  width: 80px !important; height: auto !important;
+/* Une "image" de la pellicule = un projet */
+.frame { position: relative; display: flex; flex-direction: column; gap: 6px; }
+.frame.is-hidden { display: none; }
+.frame__edge { font-family: var(--font-mono); font-size: .7rem; color: var(--marker); letter-spacing: .1em; }
+.frame__img { aspect-ratio: 3 / 2; overflow: hidden; border-radius: 2px; margin-bottom: 10px; }
+.frame__img img, .frame__img video { transition: transform .6s ease; }
+.frame:hover .frame__img img,
+.frame:hover .frame__img video { transform: scale(1.05); }
+.frame__desc { color: var(--film-muted); font-size: .95rem; }
+.frame__tags { font-family: var(--font-mono); font-size: .72rem; color: var(--film-muted); text-transform: uppercase; }
+.frame__links { display: flex; gap: 16px; margin-top: 6px; font-family: var(--font-mono); font-size: .8rem; }
+.frame__links a { color: var(--film-text); border-bottom: 1px solid transparent; }
+.frame__links a:hover { border-color: var(--marker); }
+
+/* Au survol : un cercle au "crayon gras", comme sur une vraie planche-contact */
+.frame::after {
+  content: "";
+  position: absolute; inset: -14px;
+  border: 2.5px solid var(--marker);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  opacity: 0;
+  transform: scale(1.05) rotate(-1.5deg);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
 }
-.tile__info { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 6px; }
-.tile__info p { color: var(--muted); }
-.links { display: flex; gap: 16px; margin-top: 8px; font-family: var(--font-mono); font-size: .85rem; color: var(--accent); }
-.links a:hover { color: var(--accent-2); }
+.frame:hover::after { opacity: 1; transform: scale(1) rotate(-1.5deg); }
 
-/* --- Tuiles « Moi » --- */
-.bento--me { grid-template-columns: repeat(4, 1fr); }
-.tile--bio { grid-column: span 2; }
-.big { font-family: var(--font-title); font-size: 1.5rem; line-height: 1.35; margin-top: 12px; }
-.tile--place { display: flex; flex-direction: column; justify-content: space-between; }
-.place { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.2; }
-.place span { color: var(--accent); }
-.tile--skills { display: flex; flex-direction: column; gap: 12px; }
-.badges { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
-.badges li {
-  font-family: var(--font-mono); font-size: .75rem;
-  padding: 4px 10px; border-radius: 999px;
-  border: 1px solid var(--line);
-}
-.langs { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); margin-top: auto; }
-
-.tile--photo { grid-column: span 4; display: grid; grid-template-columns: 1fr 3fr; gap: 24px; align-items: center; }
-.tile__photo-text p { margin-top: 12px; color: var(--muted); }
-.gallery {
-  display: flex; gap: 12px;
+/* Pellicule qui défile à l'horizontale (photos iPhone) */
+.strip--scroll {
+  display: flex; gap: 20px;
   overflow-x: auto; scroll-snap-type: x mandatory;
-  padding-bottom: 8px;
 }
-.gallery > * { flex: 0 0 200px; height: 260px; border-radius: 14px; scroll-snap-align: start; }
-.gallery .ph--tall { height: 260px; flex-basis: 170px; }
-
-.tile--art {
-  grid-column: span 4;
-  display: flex; gap: 20px; align-items: center;
-  background: transparent; border-style: dashed;
-}
-.tile--art p { color: var(--muted); max-width: 520px; }
+.shot { flex: 0 0 220px; scroll-snap-align: start; cursor: zoom-in; }
+.shot > img, .shot > .ph { aspect-ratio: 4 / 5; height: auto; border-radius: 2px; }
+.shot figcaption { font-family: var(--font-mono); font-size: .7rem; color: var(--marker); margin-top: 8px; }
 
 /* =========================================================
-   7. CONTACT + FOOTER
+   8. CE QUE JE PEUX FAIRE (3 colonnes)
    ========================================================= */
-.contact { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
-.contact__mail { font-family: var(--font-title); font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--accent); border-bottom: 1px solid currentColor; }
-.contact__links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.footer { text-align: center; padding: 32px; font-size: .8rem; color: var(--muted); }
+.roles { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.role { padding: 28px 28px 8px 0; display: flex; flex-direction: column; gap: 14px; }
+.role + .role { padding-left: 28px; border-left: 1px solid var(--line); }
+.role li { color: var(--muted); padding: 6px 0; border-bottom: 1px dashed var(--line); }
 
 /* =========================================================
-   8. PLACEHOLDERS (à supprimer quand tu mets tes vraies images)
+   9. MOI (bio + métadonnées façon EXIF)
+   ========================================================= */
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.about__bio { font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.35; font-weight: 500; }
+.exif div {
+  display: grid; grid-template-columns: 130px 1fr; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid var(--line);
+}
+.exif dt { font-family: var(--font-mono); font-size: .75rem; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+
+/* =========================================================
+   10. CONTACT + FOOTER
+   ========================================================= */
+.contact { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 120px; }
+.contact__mail { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 600; color: var(--accent); border-bottom: 2px solid var(--marker); }
+.contact__links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.footer { text-align: center; padding: 28px; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
+
+/* =========================================================
+   11. ANIMATIONS
+   ========================================================= */
+/* Apparition au scroll (la classe .visible est ajoutée en JS) */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Si la personne a demandé moins d'animations dans son système */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Agrandissement d'une photo au clic */
+.lightbox {
+  position: fixed; inset: 0; z-index: 50;
+  display: none; place-items: center;
+  background: rgba(5, 13, 14, .92);
+  cursor: zoom-out;
+}
+.lightbox.open { display: grid; }
+.lightbox img { width: auto; height: auto; max-width: 90vw; max-height: 85vh; }
+
+/* =========================================================
+   12. PLACEHOLDERS (à supprimer quand tu mets tes vraies images)
    ========================================================= */
 .ph {
   width: 100%; height: 100%; min-height: 160px;
   display: grid; place-items: center;
   background: var(--ph);
   color: var(--muted);
-  font-family: var(--font-mono); font-size: .75rem;
-  border-radius: inherit;
+  font-family: var(--font-mono); font-size: .72rem;
   transition: background-color .6s;
 }
-.ph--night { background: linear-gradient(160deg, #0B1A1C 0%, #12454A 55%, #E07A5F 100%); color: #E6F0EF; }
-.ph--small { width: 90px; height: 90px; min-height: 0; flex-shrink: 0; border-radius: 14px; }
+.strip .ph { background: #22383B; color: var(--film-muted); }
 
 /* =========================================================
-   9. RESPONSIVE (tablette et mobile)
+   13. RESPONSIVE (tablette et mobile)
    ========================================================= */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero__photo { max-width: 420px; }
-  .bento, .bento--me { grid-template-columns: 1fr 1fr; }
-  .tile--wide, .tile--bio, .tile--photo, .tile--art { grid-column: span 2; }
-  .tile--wide { grid-row: auto; }
-  .tile--photo { grid-template-columns: 1fr; }
+  .hero { grid-template-columns: 1fr; min-height: auto; gap: 40px; }
+  .hero__photo { max-width: 400px; }
+  .strip { grid-template-columns: 1fr 1fr; }
+  .roles { grid-template-columns: 1fr; }
+  .role + .role { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .about { grid-template-columns: 1fr; gap: 32px; }
 }
 
 @media (max-width: 600px) {
   main { padding: 0 16px; }
-  .nav { padding: 14px 16px; }
+  .nav { padding: 12px 16px; }
   .nav__links { display: none; } /* menu simplifié sur mobile */
-  .bento, .bento--me { grid-template-columns: 1fr; }
-  .tile--wide, .tile--bio, .tile--photo, .tile--art { grid-column: auto; }
-  .section { padding: 64px 0; }
+  .strip { grid-template-columns: 1fr; padding: 48px 20px; gap: 40px; }
+  .shot { flex-basis: 70%; }
+  .section { padding-top: 88px; }
+  .exif div { grid-template-columns: 100px 1fr; }
 }
