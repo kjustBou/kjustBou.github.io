@@ -1,0 +1,257 @@
+/* =========================================================
+   1. VARIABLES : toutes les couleurs et polices sont ici.
+      Pour changer une couleur, change-la seulement ici.
+   ========================================================= */
+:root {
+  /* Thème clair */
+  --bg: #F5F7F7;          /* fond blanc froid */
+  --tile: #FFFFFF;        /* fond des tuiles */
+  --text: #12201F;        /* texte principal */
+  --muted: #5B6B6A;       /* texte secondaire */
+  --line: #E1E7E6;        /* bordures fines */
+  --accent: #0F6E73;      /* bleu canard */
+  --accent-2: #E07A5F;    /* touche corail (rare) */
+  --ph: #E4EAE9;          /* placeholders */
+
+  --font-title: "Fraunces", Georgia, serif;
+  --font-text: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius: 22px;
+  --gap: 16px;
+}
+
+/* Thème sombre « terminal » : activé par le bouton ☾ */
+[data-theme="dark"] {
+  --bg: #0B1A1C;          /* bleu nuit */
+  --tile: #12282B;
+  --text: #E6F0EF;
+  --muted: #8FA8A6;
+  --line: #1F3B3E;
+  --accent: #3FD1C7;      /* teal lumineux */
+  --accent-2: #F2A48C;
+  --ph: #1A3336;
+}
+
+/* =========================================================
+   2. BASE
+   ========================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  line-height: 1.6;
+  /* transition douce entre clair et sombre */
+  transition: background-color .6s ease, color .6s ease;
+}
+
+img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+h1, h2, h3 { font-family: var(--font-title); font-weight: 400; line-height: 1.1; }
+h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: 1.5rem; }
+em { font-style: italic; color: var(--accent); }
+
+/* Petit libellé en police mono (style terminal) */
+.label {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* =========================================================
+   3. NAVIGATION
+   ========================================================= */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  transition: background-color .6s ease;
+}
+.nav__logo { font-family: var(--font-title); font-size: 1.5rem; }
+.dot { color: var(--accent-2); }
+.nav__links { display: flex; gap: 32px; font-size: .95rem; }
+.nav__links a:hover { color: var(--accent); }
+.nav__actions { display: flex; gap: 8px; }
+
+.btn-icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--tile); color: var(--text);
+  transition: background-color .6s, border-color .6s, color .6s;
+}
+.btn-lang { font-family: var(--font-mono); font-size: .75rem; }
+
+/* =========================================================
+   4. BOUTONS
+   ========================================================= */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: transform .2s, background-color .3s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary { background: var(--accent); color: var(--bg); }
+.btn--ghost { border: 1px solid var(--line); background: var(--tile); }
+
+/* =========================================================
+   5. HERO (split)
+   ========================================================= */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: center;
+  min-height: 85vh;
+  padding: 48px 0;
+}
+.hero__text { display: flex; flex-direction: column; gap: 24px; }
+.hero__typing { font-family: var(--font-mono); font-size: 1.25rem; color: var(--accent); }
+.prompt { color: var(--muted); }
+.cursor { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero__buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero__photo { aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; }
+
+/* =========================================================
+   6. SECTIONS + BENTO (grille de tuiles)
+   ========================================================= */
+.section { padding: 96px 0; }
+.section__head {
+  display: flex; justify-content: space-between; align-items: end;
+  flex-wrap: wrap; gap: 16px;
+  margin-bottom: 32px;
+}
+
+.filters { display: flex; gap: 8px; }
+.filter {
+  padding: 8px 16px; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  font-family: var(--font-mono); font-size: .8rem;
+}
+.filter.is-active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.tile {
+  background: var(--tile);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  overflow: hidden;
+  transition: background-color .6s, border-color .6s, transform .3s;
+}
+
+/* --- Tuiles projet --- */
+.tile--project { padding: 0; display: flex; flex-direction: column; }
+.tile--wide { grid-column: span 2; grid-row: span 2; }
+.tile__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; flex: 1; }
+.tile__media img, .tile__media .ph { transition: transform .6s ease; }
+.tile--project:hover .tile__media img,
+.tile--project:hover .tile__media .ph { transform: scale(1.05); }
+.tile__media--logo { display: grid; place-items: center; background: var(--ph); padding: 32px; }
+.tile__media--logo img { width: 60%; height: auto; object-fit: contain; }
+.tile__overlay-logo {
+  position: absolute; inset: auto auto 16px 16px;
+  width: 80px !important; height: auto !important;
+}
+.tile__info { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 6px; }
+.tile__info p { color: var(--muted); }
+.links { display: flex; gap: 16px; margin-top: 8px; font-family: var(--font-mono); font-size: .85rem; color: var(--accent); }
+.links a:hover { color: var(--accent-2); }
+
+/* --- Tuiles « Moi » --- */
+.bento--me { grid-template-columns: repeat(4, 1fr); }
+.tile--bio { grid-column: span 2; }
+.big { font-family: var(--font-title); font-size: 1.5rem; line-height: 1.35; margin-top: 12px; }
+.tile--place { display: flex; flex-direction: column; justify-content: space-between; }
+.place { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.2; }
+.place span { color: var(--accent); }
+.tile--skills { display: flex; flex-direction: column; gap: 12px; }
+.badges { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.badges li {
+  font-family: var(--font-mono); font-size: .75rem;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--line);
+}
+.langs { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); margin-top: auto; }
+
+.tile--photo { grid-column: span 4; display: grid; grid-template-columns: 1fr 3fr; gap: 24px; align-items: center; }
+.tile__photo-text p { margin-top: 12px; color: var(--muted); }
+.gallery {
+  display: flex; gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+}
+.gallery > * { flex: 0 0 200px; height: 260px; border-radius: 14px; scroll-snap-align: start; }
+.gallery .ph--tall { height: 260px; flex-basis: 170px; }
+
+.tile--art {
+  grid-column: span 4;
+  display: flex; gap: 20px; align-items: center;
+  background: transparent; border-style: dashed;
+}
+.tile--art p { color: var(--muted); max-width: 520px; }
+
+/* =========================================================
+   7. CONTACT + FOOTER
+   ========================================================= */
+.contact { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.contact__mail { font-family: var(--font-title); font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--accent); border-bottom: 1px solid currentColor; }
+.contact__links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.footer { text-align: center; padding: 32px; font-size: .8rem; color: var(--muted); }
+
+/* =========================================================
+   8. PLACEHOLDERS (à supprimer quand tu mets tes vraies images)
+   ========================================================= */
+.ph {
+  width: 100%; height: 100%; min-height: 160px;
+  display: grid; place-items: center;
+  background: var(--ph);
+  color: var(--muted);
+  font-family: var(--font-mono); font-size: .75rem;
+  border-radius: inherit;
+  transition: background-color .6s;
+}
+.ph--night { background: linear-gradient(160deg, #0B1A1C 0%, #12454A 55%, #E07A5F 100%); color: #E6F0EF; }
+.ph--small { width: 90px; height: 90px; min-height: 0; flex-shrink: 0; border-radius: 14px; }
+
+/* =========================================================
+   9. RESPONSIVE (tablette et mobile)
+   ========================================================= */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero__photo { max-width: 420px; }
+  .bento, .bento--me { grid-template-columns: 1fr 1fr; }
+  .tile--wide, .tile--bio, .tile--photo, .tile--art { grid-column: span 2; }
+  .tile--wide { grid-row: auto; }
+  .tile--photo { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  main { padding: 0 16px; }
+  .nav { padding: 14px 16px; }
+  .nav__links { display: none; } /* menu simplifié sur mobile */
+  .bento, .bento--me { grid-template-columns: 1fr; }
+  .tile--wide, .tile--bio, .tile--photo, .tile--art { grid-column: auto; }
+  .section { padding: 64px 0; }
+}

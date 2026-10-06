@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutaina Kechchany — Portfolio</title>
+  <meta name="description" content="Portfolio de Boutaina Kechchany : dev web, cybersécurité, réseau, IA.">
+
+  <!-- Polices : Fraunces (titres), Inter (texte), JetBrains Mono (libellés) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <header class="nav">
+    <a href="#top" class="nav__logo">BK<span class="dot">.</span></a>
+    <nav class="nav__links">
+      <a href="#projets">Projets</a>
+      <a href="#moi">Moi</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="btn-icon" id="theme-toggle" aria-label="Changer le thème">☾</button>
+      <button class="btn-icon btn-lang" id="lang-toggle" aria-label="Changer la langue">EN</button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ========== HERO (split : texte à gauche, photo à droite) ========== -->
+    <section class="hero">
+      <div class="hero__text">
+        <p class="label">Montréal · Portfolio 2026</p>
+        <h1>Bonjour, je suis <em>Boutaina</em>.</h1>
+        <p class="hero__typing"><span class="prompt">&gt;</span> <span id="typed">dev web</span><span class="cursor">_</span></p>
+        <div class="hero__buttons">
+          <a href="#projets" class="btn btn--primary">Voir mes projets</a>
+          <a href="#contact" class="btn btn--ghost">Me contacter</a>
+        </div>
+      </div>
+      <div class="hero__photo">
+        <!-- Remplacer par : <img src="assets/img/moi.jpg" alt="Portrait de Boutaina"> -->
+        <div class="ph">assets/img/moi.jpg</div>
+      </div>
+    </section>
+
+    <!-- ========== PROJETS (bento) ========== -->
+    <section class="section" id="projets">
+      <div class="section__head">
+        <h2>Projets</h2>
+        <div class="filters">
+          <button class="filter is-active" data-filter="all">Tous</button>
+          <button class="filter" data-filter="web">Web</button>
+          <button class="filter" data-filter="ia">IA</button>
+        </div>
+      </div>
+
+      <div class="bento">
+        <!-- Projet 1 : grande tuile -->
+        <article class="tile tile--project tile--wide" data-category="ia">
+          <div class="tile__media">
+            <!-- Remplacer par une vidéo : <video src="assets/video/turbodust.mp4" muted loop playsinline></video> -->
+            <div class="ph ph--night">assets/video/turbodust.mp4</div>
+          </div>
+          <div class="tile__info">
+            <span class="label">01 · Jeu 3D · IA</span>
+            <h3>TurboDust</h3>
+            <p>Une conduite de nuit, cinématique et rétro, à travers des villes du monde.</p>
+            <div class="links"><a href="#">Démo ↗</a><a href="#">Code ↗</a></div>
+          </div>
+        </article>
+
+        <!-- Projet 2 -->
+        <article class="tile tile--project" data-category="web">
+          <div class="tile__media tile__media--logo">
+            <img src="assets/img/projets/abm-logo.svg" alt="Logo Atelier Boréal Médias">
+          </div>
+          <div class="tile__info">
+            <span class="label">02 · Site vitrine</span>
+            <h3>Atelier Boréal Médias</h3>
+            <div class="links"><a href="#">Site ↗</a><a href="#">Code ↗</a></div>
+          </div>
+        </article>
+
+        <!-- Projet 3 -->
+        <article class="tile tile--project" data-category="web">
+          <div class="tile__media">
+            <img src="assets/img/projets/djb.jpg" alt="Salle d'entraînement de DJB Studio">
+            <img class="tile__overlay-logo" src="assets/img/projets/djb-logo.png" alt="">
+          </div>
+          <div class="tile__info">
+            <span class="label">03 · Site multipage · JS</span>
+            <h3>DJB Studio</h3>
+            <div class="links"><a href="#">Code ↗</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== APPRENDRE À ME CONNAÎTRE (bento) ========== -->
+    <section class="section" id="moi">
+      <div class="section__head">
+        <h2>Apprendre à me connaître</h2>
+      </div>
+
+      <div class="bento bento--me">
+        <!-- Mini-bio -->
+        <article class="tile tile--bio">
+          <span class="label">Moi</span>
+          <p class="big">Curieuse, minutieuse, toujours en train d'apprendre. Six mois pour toucher au web, à l'IA, à la cybersécurité et au réseau, et l'envie d'aller plus loin.</p>
+        </article>
+
+        <!-- Lieux -->
+        <article class="tile tile--place">
+          <span class="label">📍</span>
+          <p class="place">Montréal<br><span>Casablanca</span></p>
+        </article>
+
+        <!-- Compétences -->
+        <article class="tile tile--skills">
+          <span class="label">Boîte à outils</span>
+          <ul class="badges">
+            <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Git</li>
+            <li>Linux</li><li>Bash</li><li>Réseau</li><li>Cybersécurité</li><li>IA</li>
+          </ul>
+          <p class="langs">FR · AR · EN</p>
+        </article>
+
+        <!-- Photographie iPhone -->
+        <article class="tile tile--photo">
+          <div class="tile__photo-text">
+            <span class="label">À travers mon iPhone</span>
+            <p>Juste mon téléphone et la ville. Je remarque les détails (une ombre, une texture, un reflet) et je prends un cliché rapide.</p>
+          </div>
+          <div class="gallery">
+            <!-- Remplacer chaque .ph par <img src="assets/img/iphone/01.jpg" alt="..."> -->
+            <div class="ph ph--tall">iphone/01.jpg</div>
+            <div class="ph">iphone/02.jpg</div>
+            <div class="ph ph--tall">iphone/03.jpg</div>
+            <div class="ph">iphone/04.jpg</div>
+            <div class="ph ph--tall">iphone/05.jpg</div>
+          </div>
+        </article>
+
+        <!-- Joaillerie : à part, discret -->
+        <article class="tile tile--art">
+          <div class="ph ph--small">joaillerie/01.jpg</div>
+          <div>
+            <span class="label">Côté artistique</span>
+            <p>Diplômée en joaillerie : la gravure laser et le travail du métal m'ont appris le sens du détail.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="section contact" id="contact">
+      <h2>On travaille ensemble ?</h2>
+      <a class="contact__mail" href="mailto:ton.courriel@exemple.com">ton.courriel@exemple.com</a>
+      <div class="contact__links">
+        <a href="#" class="btn btn--ghost">LinkedIn ↗</a>
+        <a href="https://github.com/kjustBou" class="btn btn--ghost">GitHub ↗</a>
+        <a href="#" class="btn btn--primary">Mon CV (PDF)</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Boutaina Kechchany · fait main en HTML, CSS &amp; JS</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
