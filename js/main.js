@@ -1,48 +1,25 @@
 // =========================================================
-// 1. Thème clair / sombre
-// Ajoute ou enlève data-theme="dark" sur <html>.
-// Le CSS change alors toutes les couleurs (voir les variables).
-// Le choix est gardé dans le navigateur (localStorage).
-// =========================================================
-const themeButton = document.getElementById("theme-toggle");
-const html = document.documentElement;
-
-function updateThemeButton() {
-  themeButton.textContent = html.dataset.theme === "dark" ? "☀" : "☾";
-}
-
-themeButton.addEventListener("click", () => {
-  if (html.dataset.theme === "dark") {
-    delete html.dataset.theme;
-  } else {
-    html.dataset.theme = "dark";
-  }
-  updateThemeButton();
-  try { localStorage.setItem("theme", html.dataset.theme || "light"); } catch (e) {}
-});
-
-updateThemeButton();
-
-
-// =========================================================
-// 2. Langue FR / EN
+// 1. Langue FR / EN
 // Le français est écrit dans le HTML, l'anglais dans data-en="...".
-// Au premier clic, on garde le français dans data-fr pour pouvoir revenir.
+// Au premier changement, on garde le français dans data-fr pour pouvoir revenir.
 // =========================================================
+const html = document.documentElement;
 const langButton = document.getElementById("lang-toggle");
+const themeButton = document.getElementById("theme-toggle");
 let lang = "fr";
 
 function setLanguage(newLang) {
   lang = newLang;
   html.lang = lang;
   langButton.textContent = lang === "fr" ? "EN" : "FR";
+  langButton.setAttribute("aria-label", lang === "fr" ? "Switch to English" : "Passer en français");
 
   document.querySelectorAll("[data-en]").forEach((el) => {
     if (!el.dataset.fr) el.dataset.fr = el.innerHTML;
     el.innerHTML = lang === "en" ? el.dataset.en : el.dataset.fr;
   });
 
-  typeIndex = 0; // repart au premier mot dans la nouvelle langue
+  updateThemeButton(); // le bouton de thème a aussi un texte à traduire
   try { localStorage.setItem("lang", lang); } catch (e) {}
 }
 
@@ -52,103 +29,65 @@ langButton.addEventListener("click", () => {
 
 
 // =========================================================
-// 3. Texte qui s'écrit dans le hero
+// 2. Thème clair / sombre
+// Par défaut, le site suit le réglage de l'ordinateur.
+// Le bouton force "light" ou "dark" avec data-theme sur <html>,
+// et le choix est gardé dans le navigateur (localStorage).
 // =========================================================
-const words = {
-  fr: ["support TI", "dev web", "IA & données", "cybersécurité", "réseau"],
-  en: ["IT support", "web dev", "AI & data", "cybersecurity", "networking"],
-};
-const typed = document.getElementById("typed");
-let typeIndex = 0;
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-function typeWord() {
-  const word = words[lang][typeIndex];
-  let i = 0;
-
-  // On écrit le mot lettre par lettre...
-  const writing = setInterval(() => {
-    typed.textContent = word.slice(0, ++i);
-    if (i === word.length) {
-      clearInterval(writing);
-      // ...on attend un peu, puis on passe au mot suivant
-      setTimeout(() => {
-        typeIndex = (typeIndex + 1) % words[lang].length;
-        typeWord();
-      }, 1800);
-    }
-  }, 80);
+function isDark() {
+  if (html.dataset.theme) return html.dataset.theme === "dark";
+  return systemDark.matches;
 }
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (!reduceMotion) typeWord();
+function updateThemeButton() {
+  const labels = {
+    fr: { dark: "Sombre", light: "Clair" },
+    en: { dark: "Dark", light: "Light" },
+  };
+  // Le bouton affiche le thème vers lequel on va passer
+  themeButton.textContent = isDark() ? labels[lang].light : labels[lang].dark;
+}
 
-
-// =========================================================
-// 4. Filtres des projets (Tous / Web / IA)
-// =========================================================
-const filterButtons = document.querySelectorAll(".filter");
-const frames = document.querySelectorAll(".frame");
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach((b) => b.classList.remove("is-active"));
-    button.classList.add("is-active");
-
-    const filter = button.dataset.filter;
-    frames.forEach((frame) => {
-      const show = filter === "all" || frame.dataset.category === filter;
-      frame.classList.toggle("is-hidden", !show);
-    });
-  });
+themeButton.addEventListener("click", () => {
+  html.dataset.theme = isDark() ? "light" : "dark";
+  updateThemeButton();
+  try { localStorage.setItem("theme", html.dataset.theme); } catch (e) {}
 });
 
+systemDark.addEventListener("change", updateThemeButton);
+updateThemeButton();
+
 
 // =========================================================
-// 5. Apparition des sections au scroll
+// 3. Capture qui apparaît au survol d'un projet
+// Elle se place dans l'espace vide entre le texte et les liens,
+// et suit le curseur seulement de haut en bas (pour ne rien cacher).
+// Seulement avec une souris et un grand écran : sinon, la capture
+// est déjà affichée dans la ligne grâce au CSS.
 // =========================================================
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
+const preview = document.querySelector(".preview");
+const bigScreenWithMouse = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1101px)");
+
+document.querySelectorAll(".project").forEach((project) => {
+  const desc = project.querySelector(".project__desc");
+  const links = project.querySelector(".project__links");
+
+  project.addEventListener("mouseenter", () => {
+    if (!bigScreenWithMouse.matches) return;
+    preview.src = project.dataset.img;
+    preview.classList.add("is-visible");
   });
-}, { threshold: 0.15 });
-
-document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-
-
-// =========================================================
-// 6. Vidéos des projets : lecture au survol
-// (fonctionne dès que tu remplaces une image par une <video>)
-// =========================================================
-frames.forEach((frame) => {
-  const video = frame.querySelector("video");
-  if (!video) return;
-  frame.addEventListener("mouseenter", () => video.play());
-  frame.addEventListener("mouseleave", () => video.pause());
-});
-
-
-// =========================================================
-// 7. Agrandir une photo iPhone au clic
-// =========================================================
-const lightbox = document.createElement("div");
-lightbox.className = "lightbox";
-lightbox.innerHTML = "<img alt=''>";
-document.body.appendChild(lightbox);
-
-document.querySelectorAll(".shot img").forEach((img) => {
-  img.addEventListener("click", () => {
-    lightbox.querySelector("img").src = img.src;
-    lightbox.querySelector("img").alt = img.alt;
-    lightbox.classList.add("open");
+  project.addEventListener("mouseleave", () => {
+    preview.classList.remove("is-visible");
   });
-});
-
-lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") lightbox.classList.remove("open");
+  project.addEventListener("mousemove", (e) => {
+    // Milieu de l'espace vide entre la description et les liens
+    const x = (desc.getBoundingClientRect().right + links.getBoundingClientRect().left) / 2;
+    preview.style.left = x + "px";
+    preview.style.top = e.clientY + "px";
+  });
 });
 
 
