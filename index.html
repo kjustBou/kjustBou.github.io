@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutaina Kechchany · Portfolio</title>
+  <meta name="description" content="Portfolio de Boutaina Kechchany : support TI, développement web, IA et données.">
+
+  <!-- Applique le thème sauvegardé tout de suite (évite un flash blanc) -->
+  <script>
+    try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}
+  </script>
+
+  <!-- Polices : Archivo (titres + texte), IBM Plex Mono (métadonnées) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =====================================================
+       NAVIGATION
+       Pour traduire un texte : écrire le français dans la balise
+       et l'anglais dans l'attribut data-en="..."
+       ===================================================== -->
+  <header class="nav">
+    <a href="#top" class="nav__logo">BOUTAINA K<span class="dot">.</span></a>
+    <nav class="nav__links">
+      <a href="#projets" data-en="Projects">Projets</a>
+      <a href="#competences" data-en="Skills">Compétences</a>
+      <a href="#moi" data-en="About">Moi</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="btn-icon" id="theme-toggle" aria-label="Changer le thème">☾</button>
+      <button class="btn-icon" id="lang-toggle" aria-label="Switch to English">EN</button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- =====================================================
+         HERO : texte à gauche, photo cadrée à droite
+         ===================================================== -->
+    <section class="hero">
+      <div class="hero__text">
+        <p class="meta">IMG_0000 · Montréal · 2026</p>
+        <h1 data-en="I notice<br>the details.">Je remarque<br>les détails.</h1>
+        <p class="hero__typing"><span class="prompt">&gt;</span> <span id="typed">support TI</span><span class="cursor">_</span></p>
+        <p class="hero__intro" data-en="Fresh out of a 6-month program in web dev, AI, cybersecurity and networking. Looking for my next challenge.">
+          Je termine une formation de 6 mois en dev web, IA, cybersécurité et réseau. Je cherche mon prochain défi.
+        </p>
+        <div class="hero__buttons">
+          <a href="#projets" class="btn btn--primary" data-en="See my work">Voir mes projets</a>
+          <a href="#contact" class="btn btn--ghost" data-en="Contact me">Me contacter</a>
+        </div>
+      </div>
+
+      <figure class="hero__photo">
+        <div class="crop">
+          <i class="c c--tl"></i><i class="c c--tr"></i><i class="c c--bl"></i><i class="c c--br"></i>
+          <!-- Remplacer par : <img src="assets/img/moi.jpg" alt="Portrait de Boutaina"> -->
+          <div class="ph">assets/img/moi.jpg</div>
+        </div>
+        <figcaption class="meta">Boutaina Kechchany · f/1.8 · 1/120</figcaption>
+      </figure>
+    </section>
+
+    <!-- =====================================================
+         PLANCHE 01 : PROJETS
+         Chaque projet = une "image" sur la pellicule.
+         data-category sert aux filtres (web / ia).
+         ===================================================== -->
+    <section class="section reveal" id="projets">
+      <div class="section__head">
+        <div>
+          <p class="meta" data-en="Sheet 01">Planche 01</p>
+          <h2 data-en="Projects">Projets</h2>
+        </div>
+        <div class="filters">
+          <button class="filter is-active" data-filter="all" data-en="All">Tous</button>
+          <button class="filter" data-filter="web">Web</button>
+          <button class="filter" data-filter="ia" data-en="AI">IA</button>
+        </div>
+      </div>
+
+      <div class="strip">
+        <article class="frame" data-category="ia">
+          <p class="frame__edge">▸ 01 &nbsp; BK 400</p>
+          <div class="frame__img">
+            <!-- Pour une vidéo au survol : <video src="assets/video/turbodust.mp4" muted loop playsinline poster="assets/img/projets/turbodust.png"></video> -->
+            <img src="assets/img/projets/turbodust.png" alt="Capture du jeu TurboDust : une voiture rouge sur une route de nuit">
+          </div>
+          <h3>TurboDust</h3>
+          <p class="frame__desc" data-en="A cinematic 3D night drive. AI project.">Une conduite de nuit en 3D, cinématique. Projet IA.</p>
+          <p class="frame__tags">IA · Three.js · Vite</p>
+          <div class="frame__links">
+            <a href="#">Démo ↗</a>
+            <a href="#">Code ↗</a>
+          </div>
+        </article>
+
+        <article class="frame" data-category="web">
+          <p class="frame__edge">▸ 02 &nbsp; BK 400</p>
+          <div class="frame__img">
+            <img src="assets/img/projets/abm.png" alt="Capture du site Atelier Boréal Médias">
+          </div>
+          <h3>Atelier Boréal Médias</h3>
+          <p class="frame__desc" data-en="Showcase website for a media agency.">Site vitrine pour une agence médias.</p>
+          <p class="frame__tags">HTML · CSS</p>
+          <div class="frame__links">
+            <a href="#">Démo ↗</a>
+            <a href="https://github.com/kjustBou/ProjetWEBABM" target="_blank" rel="noopener">Code ↗</a>
+          </div>
+        </article>
+
+        <article class="frame" data-category="web">
+          <p class="frame__edge">▸ 03 &nbsp; BK 400</p>
+          <div class="frame__img">
+            <img src="assets/img/projets/djb-site.png" alt="Capture du site DJB Studio, académie de MMA">
+          </div>
+          <h3>DJB Studio</h3>
+          <p class="frame__desc" data-en="Multi-page site for an MMA academy, schedule and sign-up.">Site multipage d'une académie de MMA : horaire et inscription.</p>
+          <p class="frame__tags">HTML · CSS · JavaScript</p>
+          <div class="frame__links">
+            <a href="#">Démo ↗</a>
+            <a href="#">Code ↗</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PLANCHE 02 : CE QUE JE PEUX FAIRE (3 postes visés)
+         ===================================================== -->
+    <section class="section reveal" id="competences">
+      <div class="section__head">
+        <div>
+          <p class="meta" data-en="Sheet 02">Planche 02</p>
+          <h2 data-en="What I can do">Ce que je peux faire</h2>
+        </div>
+      </div>
+
+      <div class="roles">
+        <div class="role">
+          <p class="meta">02A</p>
+          <h3 data-en="IT support">Support TI</h3>
+          <ul>
+            <li data-en="Windows &amp; Linux troubleshooting">Dépannage Windows et Linux</li>
+            <li data-en="Networking &amp; security basics">Bases en réseau et sécurité</li>
+            <li data-en="Years of customer service">Des années de service à la clientèle</li>
+          </ul>
+        </div>
+        <div class="role">
+          <p class="meta">02B</p>
+          <h3>Dev web</h3>
+          <ul>
+            <li>HTML, CSS, JavaScript</li>
+            <li data-en="Responsive, accessible sites">Sites responsive et accessibles</li>
+            <li>Git &amp; GitHub</li>
+          </ul>
+        </div>
+        <div class="role">
+          <p class="meta">02C</p>
+          <h3 data-en="AI &amp; data">IA &amp; données</h3>
+          <ul>
+            <li data-en="Data annotation &amp; review">Annotation et vérification de données</li>
+            <li data-en="Rigor and consistency">Rigueur et constance</li>
+            <li data-en="Generative AI tools">Outils d'IA générative</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PLANCHE 03 : À TRAVERS MON IPHONE
+         Remplacer chaque .ph par :
+         <img src="assets/img/iphone/01.jpg" alt="Description courte">
+         ===================================================== -->
+    <section class="section reveal" id="iphone">
+      <div class="section__head">
+        <div>
+          <p class="meta" data-en="Sheet 03">Planche 03</p>
+          <h2 data-en="Through my iPhone">À travers mon iPhone</h2>
+        </div>
+        <p class="section__note" data-en="Just my phone and the city. I notice a shadow, a texture, a reflection, and take a quick snap.">
+          Juste mon téléphone et la ville. Je remarque une ombre, une texture, un reflet, et je prends un cliché rapide.
+        </p>
+      </div>
+
+      <div class="strip strip--scroll">
+        <figure class="shot"><div class="ph">iphone/01.jpg</div><figcaption>▸ 01</figcaption></figure>
+        <figure class="shot"><div class="ph">iphone/02.jpg</div><figcaption>▸ 02</figcaption></figure>
+        <figure class="shot"><div class="ph">iphone/03.jpg</div><figcaption>▸ 03</figcaption></figure>
+        <figure class="shot"><div class="ph">iphone/04.jpg</div><figcaption>▸ 04</figcaption></figure>
+        <figure class="shot"><div class="ph">iphone/05.jpg</div><figcaption>▸ 05</figcaption></figure>
+        <figure class="shot"><div class="ph">iphone/06.jpg</div><figcaption>▸ 06</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PLANCHE 04 : MOI (présentée comme des métadonnées photo)
+         ===================================================== -->
+    <section class="section reveal" id="moi">
+      <div class="section__head">
+        <div>
+          <p class="meta" data-en="Sheet 04">Planche 04</p>
+          <h2 data-en="About me">Moi</h2>
+        </div>
+      </div>
+
+      <div class="about">
+        <p class="about__bio" data-en="Curious and meticulous, I like understanding how things work, then making them clear for others.">
+          Curieuse et minutieuse, j'aime comprendre comment les choses fonctionnent, puis les rendre claires pour les autres.
+        </p>
+        <dl class="exif">
+          <div><dt data-en="Location">Lieu</dt><dd>Montréal, QC</dd></div>
+          <div><dt data-en="Languages">Langues</dt><dd data-en="French · Arabic · English">Français · Arabe · Anglais</dd></div>
+          <div><dt data-en="Training">Formation</dt><dd data-en="Cybercap · 6 months · 2026">Cybercap · 6 mois · 2026</dd></div>
+          <div><dt data-en="Tools">Outils</dt><dd>HTML · CSS · JS · Git · Linux · Bash</dd></div>
+          <div><dt data-en="Looking for">Je cherche</dt><dd data-en="IT support · Web dev · AI &amp; data">Support TI · Dev web · IA &amp; données</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         CONTACT
+         ===================================================== -->
+    <section class="section contact reveal" id="contact">
+      <p class="meta" data-en="Last frame">Dernière image</p>
+      <h2 data-en="Let's talk.">On se parle ?</h2>
+      <a class="contact__mail" href="mailto:ton.courriel@exemple.com">ton.courriel@exemple.com</a>
+      <div class="contact__links">
+        <a href="#" class="btn btn--ghost" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/kjustBou" class="btn btn--ghost" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="#" class="btn btn--primary" data-en="My resume (PDF)">Mon CV (PDF)</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Boutaina Kechchany</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
