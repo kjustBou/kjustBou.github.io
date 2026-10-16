@@ -36,6 +36,7 @@ function setLanguage(newLang) {
   lang = newLang;
   html.lang = lang;
   langButton.textContent = lang === "fr" ? "EN" : "FR";
+  langButton.setAttribute("aria-label", lang === "fr" ? "Switch to English" : "Passer en français");
 
   document.querySelectorAll("[data-en]").forEach((el) => {
     if (!el.dataset.fr) el.dataset.fr = el.innerHTML;

@@ -207,6 +207,7 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .frame__links { display: flex; gap: 16px; margin-top: 6px; font-family: var(--font-mono); font-size: .8rem; }
 .frame__links a { color: var(--film-text); border-bottom: 1px solid transparent; }
 .frame__links a:hover { border-color: var(--marker); }
+.frame__links .soon { color: var(--film-muted); }
 
 /* Au survol : un cercle au "crayon gras", comme sur une vraie planche-contact */
 .frame::after {
@@ -255,19 +256,29 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .contact { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; padding-bottom: 120px; }
 .contact__mail { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 600; color: var(--accent); border-bottom: 2px solid var(--marker); }
 .contact__links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
-.footer { text-align: center; padding: 28px; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
+.footer {
+  display: flex; justify-content: space-between; gap: 16px;
+  max-width: 1200px; margin: 0 auto; padding: 28px 24px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .75rem; color: var(--muted);
+}
+.footer a:hover { color: var(--accent); }
+
+/* Contour visible quand on navigue au clavier (Tab) */
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* =========================================================
    11. ANIMATIONS
    ========================================================= */
-/* Apparition au scroll (la classe .visible est ajoutée en JS) */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
-.reveal.visible { opacity: 1; transform: none; }
+/* Apparition au scroll (la classe .visible est ajoutée en JS).
+   ".js" : on ne cache les sections que si le JavaScript fonctionne. */
+.js .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+.js .reveal.visible { opacity: 1; transform: none; }
 
 /* Si la personne a demandé moins d'animations dans son système */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
-  .reveal { opacity: 1; transform: none; }
+  .js .reveal { opacity: 1; transform: none; }
 }
 
 /* Agrandissement d'une photo au clic */
@@ -308,7 +319,9 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 @media (max-width: 600px) {
   main { padding: 0 16px; }
   .nav { padding: 12px 16px; }
-  .nav__links { display: none; } /* menu simplifié sur mobile */
+  .nav__long { display: none; }  /* le logo devient "BK." */
+  .nav__links { gap: 14px; font-size: .68rem; }
+  .nav__links a[href="#competences"] { display: none; } /* menu plus court sur mobile */
   .strip { grid-template-columns: 1fr; padding: 48px 20px; gap: 40px; }
   .shot { flex-basis: 70%; }
   .section { padding-top: 88px; }
