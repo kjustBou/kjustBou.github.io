@@ -72,8 +72,7 @@
       <figure class="hero__photo">
         <div class="crop">
           <i class="c c--tl"></i><i class="c c--tr"></i><i class="c c--bl"></i><i class="c c--br"></i>
-          <!-- Remplacer par : <img src="assets/img/moi.jpg" alt="Portrait de Boutaina"> -->
-          <div class="ph">assets/img/moi.jpg</div>
+          <img class="hero__img" src="assets/img/moi.webp" alt="Portrait de Boutaina Kechchany" width="1000" height="1500">
         </div>
         <figcaption class="meta">Boutaina Kechchany · f/1.8 · 1/120</figcaption>
       </figure>
@@ -188,8 +187,8 @@
 
     <!-- =====================================================
          PLANCHE 03 : À TRAVERS MON IPHONE
-         Remplacer chaque .ph par :
-         <img src="assets/img/iphone/01.jpg" alt="Description courte">
+         Pour ajouter une photo : copier un bloc <figure class="shot">,
+         changer le nom du fichier, le alt (description) et le numéro.
          ===================================================== -->
     <section class="section reveal" id="iphone">
       <div class="section__head">
@@ -203,12 +202,30 @@
       </div>
 
       <div class="strip strip--scroll">
-        <figure class="shot"><div class="ph">iphone/01.jpg</div><figcaption>▸ 01</figcaption></figure>
-        <figure class="shot"><div class="ph">iphone/02.jpg</div><figcaption>▸ 02</figcaption></figure>
-        <figure class="shot"><div class="ph">iphone/03.jpg</div><figcaption>▸ 03</figcaption></figure>
-        <figure class="shot"><div class="ph">iphone/04.jpg</div><figcaption>▸ 04</figcaption></figure>
-        <figure class="shot"><div class="ph">iphone/05.jpg</div><figcaption>▸ 05</figcaption></figure>
-        <figure class="shot"><div class="ph">iphone/06.jpg</div><figcaption>▸ 06</figcaption></figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/01.webp" alt="Lampadaire allumé sous les arbres, à la tombée de la nuit" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 01</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/02.webp" alt="Feuilles jaunes d'automne contre un ciel nuageux" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 02</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/03.webp" alt="Immeuble ancien en pierre du Vieux-Montréal, vu d'en bas" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 03</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/04.webp" alt="Rangée d'arbres et vélos BIXI, une murale orange au loin" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 04</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/05.webp" alt="Mur de briques, le ciel se reflète dans les fenêtres" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 05</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/iphone/06.webp" alt="Façade de la Fonderie Darling, lettrage peint et graffitis" loading="lazy" width="900" height="1200">
+          <figcaption>▸ 06</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -243,15 +260,14 @@
     <section class="section contact reveal" id="contact">
       <p class="meta" data-en="Last frame">Dernière image</p>
       <h2 data-en="Let's talk.">On se parle ?</h2>
-      <!-- ✎ À REMPLIR : ton courriel, aux DEUX endroits (href="mailto:..." et le texte) -->
-      <a class="contact__mail" href="mailto:ton.courriel@exemple.com">ton.courriel@exemple.com</a>
+      <a class="contact__mail" href="mailto:bkechchany01@gmail.com">bkechchany01@gmail.com</a>
       <div class="contact__links">
-        <!-- ✎ À REMPLIR : l'adresse de ton profil, ex. https://www.linkedin.com/in/ton-nom/ -->
-        <a href="#" class="btn btn--ghost" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://www.linkedin.com/in/boutaina-ky/" class="btn btn--ghost" target="_blank" rel="noopener">LinkedIn ↗</a>
         <a href="https://github.com/kjustBou" class="btn btn--ghost" target="_blank" rel="noopener">GitHub ↗</a>
-        <!-- ✎ À REMPLIR : mettre ton CV dans assets/cv/boutaina-kechchany-cv.pdf
-             puis remplacer href="#" par href="assets/cv/boutaina-kechchany-cv.pdf" -->
-        <a href="#" class="btn btn--primary" download data-en="My resume (PDF) ↓">Mon CV (PDF) ↓</a>
+        <!-- ✎ CV : mettre le PDF dans assets/cv/boutaina-kechchany-cv.pdf,
+             puis enlever les marques de commentaire autour de la ligne suivante :
+        <a href="assets/cv/boutaina-kechchany-cv.pdf" class="btn btn--primary" download data-en="My resume (PDF) ↓">Mon CV (PDF) ↓</a>
+        -->
       </div>
     </section>
   </main>
